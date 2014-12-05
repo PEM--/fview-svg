@@ -61,6 +61,8 @@ class Svg extends famous.core.View
     console.log 'Shapes ready', @$shapes
     @modifiers = []
     @surfaces = []
+    mainrect = @$svg[0].getBoundingClientRect()
+    console.log 'Main rect', mainrect
     for shape in @$shapes
       rect = shape[0].getBoundingClientRect()
       mod = new StateModifier
