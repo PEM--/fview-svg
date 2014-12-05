@@ -66,20 +66,25 @@ class Svg extends famous.core.View
     for shape in @$shapes
       rect = shape[0].getBoundingClientRect()
       mod = new StateModifier
-        align: [.5,.5]
-        origin: [.5,.5]
+        align: [0,1]
+        origin: [0,1]
         size: [rect.width, rect.height]
+      console.log 'Inner rect', rect
       $innerSvg = $ "<svg \
         width='100%', height='100%' \
-        viewBox='0 0 #{rect.width} #{rect.height}', \
+        viewBox='\
+          #{rect.left - mainrect.left} \
+          #{rect.top - mainrect.top} \
+          #{rect.width} \
+          #{rect.height}', \
         preserveAspectRatio='xMidYMid meet'>\
         </svg>"
       shape.get
       $innerSvg.append shape.clone()
-      console.log 'innerSvg', $innerSvg
+      #console.log 'innerSvg', $innerSvg
       surf = new Surface
         content: $innerSvg[0]
-      console.log $innerSvg[0]
+      #console.log $innerSvg[0]
       @modifiers.push mod
       @surfaces.push surf
       (@add mod).add surf
