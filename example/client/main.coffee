@@ -4,6 +4,7 @@ css
 .add '.title',
   fontFamily: 'Helvetica Neue, Arial, sans-serif'
   fontSize: CSSC.px 30
+  textAlign: 'center'
 
 # Set FView logging at its bare minimum
 Logger.setLevel 'famous-views', 'info'
