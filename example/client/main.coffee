@@ -42,9 +42,9 @@ class Svg extends famous.core.View
       content: @$svg[0]
     (@add @smod).add sceneSurf
     @$shapes = []
-    famous.utilities.Timer.setTimeout =>
-      @getAllShapes @shapesReady
-    , 100
+    #famous.utilities.Timer.setTimeout =>
+    #  @getAllShapes @shapesReady
+    #, 32
   getAllShapes: (cb) =>
     idx = @$shapes.length
     $shape = @$svg.find "##{@_options.shapes[idx]}"
