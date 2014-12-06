@@ -35,12 +35,12 @@ class Svg extends famous.core.View
     html = Blaze.toHTML Template[@_options.template]
     @$svg = $ html
     #console.log 'HTML', html
-    smod = new StateModifier
+    @smod = new StateModifier
       align: [.5,.5]
       origin: [.5,.5]
     sceneSurf = new Surface
       content: @$svg[0]
-    (@add smod).add sceneSurf
+    (@add @smod).add sceneSurf
     @$shapes = []
     famous.utilities.Timer.setTimeout =>
       @getAllShapes @shapesReady
@@ -49,7 +49,6 @@ class Svg extends famous.core.View
     idx = @$shapes.length
     $shape = @$svg.find "##{@_options.shapes[idx]}"
     rect = $shape[0].getBoundingClientRect()
-    #console.log '$logo', rect
     if rect.width is 0
       return famous.core.Engine.nextTick => @getAllShapes cb
     @$shapes.push $shape
@@ -58,18 +57,19 @@ class Svg extends famous.core.View
       return cb()
     famous.core.Engine.nextTick => @getAllShapes cb
   shapesReady: =>
-    console.log 'Shapes ready', @$shapes
     @modifiers = []
     @surfaces = []
     mainrect = @$svg[0].getBoundingClientRect()
-    console.log 'Main rect', mainrect
     for shape in @$shapes
       rect = shape[0].getBoundingClientRect()
       mod = new StateModifier
         align: [0,1]
         origin: [0,1]
         size: [rect.width, rect.height]
-      console.log 'Inner rect', rect
+        transform: famous.core.Transform.translate \
+          rect.left - mainrect.left, \
+          rect.bottom - mainrect.bottom, \
+          0
       $innerSvg = $ "<svg \
         width='100%', height='100%' \
         viewBox='\
