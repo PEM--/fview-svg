@@ -10,10 +10,6 @@ Package.onUse(function(api) {
   api.use('mjn:famous@0.3.1_2', 'client', { weak: true });
   api.use('raix:famono@0.9.23', { weak: true });
   api.use([
-    'jquery',
-    'blaze',
-    'templating',
-    'tracker',
     'gadicohen:famous-views@0.1.29',
     'coffeescript'
     ], 'client');

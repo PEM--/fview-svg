@@ -63,7 +63,6 @@ FView.ready ->
             #{svgrect.height + @options.stroke}', \
           preserveAspectRatio='xMidYMid meet'>\
           </svg>"
-        shape.get
         $innerSvg.append shape.clone()
         surf = new famous.core.Surface
           content: $innerSvg[0]
@@ -71,5 +70,6 @@ FView.ready ->
         @surfaces.push surf
         (@scenenode.add mod).add surf
         shape.remove()
+
   # Register the component
   FView.registerView 'FviewSvg', FviewSvg
