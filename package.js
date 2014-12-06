@@ -7,17 +7,16 @@ Package.describe({
 
 Package.onUse(function(api) {
   api.versionsFrom('1.0');
-  api.use('mjn:famous@0.3.0_5', 'client', { weak: true });
-  api.use('raix:famono@0.9.14', { weak: true });
+  api.use('mjn:famous@0.3.1_2', 'client', { weak: true });
+  api.use('raix:famono@0.9.23', { weak: true });
   api.use([
-    'gadicohen:famous-views@0.1.24',
+    'jquery',
+    'blaze',
+    'templating',
+    'tracker',
+    'gadicohen:famous-views@0.1.29',
     'coffeescript'
-    ]);
-  api.addFiles('fview-svg.coffee');
-});
-
-Package.onTest(function(api) {
-  api.use('tinytest');
-  api.use('fview-svg');
-  api.addFiles('fview-svg-tests.js');
+    ], 'client');
+  api.addFiles('fview-svg.coffee', 'client');
+  api.export('FviewSvg', 'client');
 });
