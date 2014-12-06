@@ -4,21 +4,33 @@ FView.ready ->
   class FviewSvg extends famous.core.View
     @DEFAULT_OPTIONS:
       shapes: []
+      template: undefined
       stroke: 0
+      zOrderStart: 0
     constructor: (@options) ->
       super @options
+      unless @options.template?
+        return FView.log.error 'fview-svg: You must specify a template.'
       @id = famous.core.Entity.register @
-      html = Blaze.toHTML Template[@options.template]
+      tpl = Template[@options.template]
+      unless tpl?
+        return FView.log.error "fview-svg: Cannot find template named \
+          '#{@options.template}'."
+      html = Blaze.toHTML tpl
       @$svg = $ html
       $svgtag = @$svg.find 'rect'
+      @curzOrder = @options.zOrderStart
       @smod = new famous.modifiers.StateModifier
         align: [.5,.5]
         origin: [.5,.5]
+        tranform: famous.core.Transform.translate 0,0, @curzOrder++
       @sceneSurf = new famous.core.Surface
         content: @$svg[0]
+      @initialSceneSize = undefined
       @sceneSurf.on 'resize', =>
         # TODO ensure responsive behavior
-        console.log 'Resizing', @sceneSurf.getSize()
+        @initialSceneSize = @sceneSurf.getSize() unless @initialSceneSize?
+        console.log 'Resizing', @initialSceneSize
       @scenenode = @add @smod
       @scenenode.add @sceneSurf
       @$shapes = []
@@ -53,7 +65,7 @@ FView.ready ->
           transform: famous.core.Transform.translate \
             svgrect.x*ratio, \
             svgrect.y*ratio, \
-            0
+            @curzOrder++
         $innerSvg = $ "<svg \
           width='100%', height='100%' \
           viewBox='\
