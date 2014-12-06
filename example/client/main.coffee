@@ -25,69 +25,80 @@ Surface = null
 Timer = null
 
 class Svg extends famous.core.View
-  DEFAULT_OPTIONS:
+  @DEFAULT_OPTIONS:
     shapes: []
-  constructor: (@_options) ->
-    super @_options
+    stroke: 0
+  constructor: (@options) ->
+    super @options
     @id = famous.core.Entity.register @
-    #console.log 'Svg.options', @_options
-    #console.log Template[@_options.template]
-    html = Blaze.toHTML Template[@_options.template]
+    console.log 'Svg.options', @options
+    #console.log Template[@options.template]
+    html = Blaze.toHTML Template[@options.template]
     @$svg = $ html
+    $svgtag = @$svg.find 'rect'
+    console.log 'Viewbox', @$svg[0].viewBox.baseVal
+    famous.utilities.Timer.setTimeout =>
+      console.log 'Parent size', @getSize()
+    , 200
     #console.log 'HTML', html
     @smod = new StateModifier
       align: [.5,.5]
       origin: [.5,.5]
     sceneSurf = new Surface
       content: @$svg[0]
-    (@add @smod).add sceneSurf
+    @scenenode = @add @smod
+    @scenenode.add sceneSurf
     @$shapes = []
-    #famous.utilities.Timer.setTimeout =>
-    #  @getAllShapes @shapesReady
-    #, 32
+    if true
+      famous.utilities.Timer.setTimeout =>
+        @getAllShapes @shapesReady
+      , 32
   getAllShapes: (cb) =>
     idx = @$shapes.length
-    $shape = @$svg.find "##{@_options.shapes[idx]}"
+    $shape = @$svg.find "##{@options.shapes[idx]}"
     rect = $shape[0].getBoundingClientRect()
     if rect.width is 0
       return famous.core.Engine.nextTick => @getAllShapes cb
     @$shapes.push $shape
     idx++
-    if idx is @_options.shapes.length
+    if idx is @options.shapes.length
       return cb()
     famous.core.Engine.nextTick => @getAllShapes cb
   shapesReady: =>
     @modifiers = []
     @surfaces = []
     mainrect = @$svg[0].getBoundingClientRect()
+    ratio = mainrect.width / @$svg[0].viewBox.baseVal.width
     for shape in @$shapes
-      rect = shape[0].getBoundingClientRect()
+      famousrect = shape[0].getBoundingClientRect()
+      svgrect = shape[0].getBBox()
       mod = new StateModifier
-        align: [0,1]
-        origin: [0,1]
-        size: [rect.width, rect.height]
+        align: [0,0]
+        origin: [0,0]
+        size: [
+            famousrect.width + @options.stroke
+            famousrect.height + @options.stroke
+          ]
         transform: famous.core.Transform.translate \
-          rect.left - mainrect.left, \
-          rect.bottom - mainrect.bottom, \
+          svgrect.x*ratio, \
+          svgrect.y*ratio, \
           0
       $innerSvg = $ "<svg \
         width='100%', height='100%' \
         viewBox='\
-          #{rect.left - mainrect.left} \
-          #{rect.top - mainrect.top} \
-          #{rect.width} \
-          #{rect.height}', \
+          #{svgrect.x - @options.stroke/2} \
+          #{svgrect.y - @options.stroke/2} \
+          #{svgrect.width + @options.stroke} \
+          #{svgrect.height + @options.stroke}', \
         preserveAspectRatio='xMidYMid meet'>\
         </svg>"
       shape.get
       $innerSvg.append shape.clone()
-      #console.log 'innerSvg', $innerSvg
       surf = new Surface
         content: $innerSvg[0]
-      #console.log $innerSvg[0]
       @modifiers.push mod
       @surfaces.push surf
-      (@add mod).add surf
+      (@scenenode.add mod).add surf
       shape.remove()
 
 FView.ready ->
