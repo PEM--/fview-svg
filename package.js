@@ -11,7 +11,10 @@ Package.onUse(function(api) {
   api.use('raix:famono@0.9.23', { weak: true });
   api.use([
     'gadicohen:famous-views@0.1.29',
-    'coffeescript'
+    'coffeescript',
+    'blaze',
+    'templating',
+    'tracker'
     ], 'client');
   api.addFiles('fview-svg.coffee', 'client');
   api.export('FviewSvg', 'client');

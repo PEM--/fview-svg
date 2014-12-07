@@ -19,8 +19,19 @@ Logger.setLevel 'famous-views', 'info'
 # Polyfills are necessary if you are using raix:famono
 famous.polyfills
 
+Transform = null
+
 FView.ready ->
   console.info "%c\nfamous-views started\n", \
     "font-weight: 300; color: #ec5f3e; font-size: x-large; \
     font-family: #{niceFont}; -webkit-font-smoothing: antialiased;"
   famous.core.Engine.nextTick -> FView.mainCtx.setPerspective 2000
+  Transform = famous.core.Transform
+
+Template.svgScene1.rendered = ->
+  svg = (FView.byId 'scene').view
+  svg.ready ->
+    for smod in svg.getStateModifiers()
+      smod.setAlign [.5,.5]
+      smod.setOrigin [.5,.5]
+      smod.setTransform Transform.translate 20, 200, 0, duration: 500

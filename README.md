@@ -53,9 +53,11 @@ You should better stay off SVG transformations (translate, rotate, ...). They ar
 ### Create an SVG template
 There are multiple ways of using SVG inside HTML, as objects, imgs, fonts and tags. The tag based SVG directly within your HTML delivers the most efficient integration. This is what is used by **fview-svg** to bridge the SVG world to the ones of [Meteor] and [famo.us].
 
-Once you have edited your SVG, wether it be with Sketch, Adobe Illustrator, [Inkscape] or others, I strongly advise you to remove the unnecessary bloat that these software are adding to your file. For this, I use [SVGO]. See references for details.
+Once you have edited your SVG, wether it be with Sketch, Adobe Illustrator, [Inkscape] or others, I strongly advise you to remove the unnecessary bloat that these software are adding to your file. For this, I use [SVGO]. See references for details. Always check the optimized SVG file for ensuring that the optimization process has not deteriorated your drawings. This is simply done using your browser of choice and opening the optimized SVG file.
 
-TODO
+TODO: It is now time to import your optimized SVG file as a [Meteor] template.
+
+TODO: Exporting the attributes
 
 ## API
 TODO

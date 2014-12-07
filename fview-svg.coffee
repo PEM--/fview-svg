@@ -17,45 +17,51 @@ FView.ready ->
         return FView.log.error "fview-svg: Cannot find template named \
           '#{@options.template}'."
       html = Blaze.toHTML tpl
-      @$svg = $ html
-      $svgtag = @$svg.find 'rect'
-      @curzOrder = @options.zOrderStart
-      @smod = new famous.modifiers.StateModifier
+      @_$svg = $ html
+      @_createSvg()
+      @_isReady = false
+      @_readyQueue = []
+      @_readyDep = new Tracker.Dependency
+    _createSvg: ->
+      @_curzOrder = @options.zOrderStart
+      smod = new famous.modifiers.StateModifier
         align: [.5,.5]
         origin: [.5,.5]
-        tranform: famous.core.Transform.translate 0,0, @curzOrder++
-      @sceneSurf = new famous.core.Surface
-        content: @$svg[0]
-      @initialSceneSize = undefined
-      @sceneSurf.on 'resize', =>
+        tranform: famous.core.Transform.translate 0,0, @_curzOrder++
+      @_sceneSurf = new famous.core.Surface
+        content: @_$svg[0]
+      @_initialSceneSize = undefined
+      @_sceneSurf.on 'resize', =>
         # TODO ensure responsive behavior
-        @initialSceneSize = @sceneSurf.getSize() unless @initialSceneSize?
-        console.log 'Resizing', @initialSceneSize
-      @scenenode = @add @smod
-      @scenenode.add @sceneSurf
-      @$shapes = []
+        curSize = @_sceneSurf.getSize()
+        if @_initialSceneSize is undefined
+          @_initialSceneSize = famous.utilities.Utility.clone curSize
+        console.log 'Resizing', @_initialSceneSize, curSize
+      @_scenenode = @add smod
+      @_scenenode.add @_sceneSurf
+      @_$shapes = []
       # Need at least one cycle for the SVG to get ready and rendered
-      famous.core.Engine.nextTick => @getAllShapes @shapesReady
-    getAllShapes: (cb) =>
-      idx = @$shapes.length
-      $shape = @$svg.find "##{@options.shapes[idx]}"
+      famous.core.Engine.nextTick => @_getAllShapes @_shapesReady
+    _getAllShapes: (cb) =>
+      idx = @_$shapes.length
+      $shape = @_$svg.find "##{@options.shapes[idx]}"
       rect = $shape[0].getBoundingClientRect()
       if rect.width is 0
-        return famous.core.Engine.nextTick => @getAllShapes cb
-      @$shapes.push $shape
+        return famous.core.Engine.nextTick => @_getAllShapes cb
+      @_$shapes.push $shape
       idx++
       if idx is @options.shapes.length
         return cb()
-      famous.core.Engine.nextTick => @getAllShapes cb
-    shapesReady: =>
-      @modifiers = []
-      @surfaces = []
-      mainrect = @$svg[0].getBoundingClientRect()
-      ratio = mainrect.width / @$svg[0].viewBox.baseVal.width
-      for shape in @$shapes
+      famous.core.Engine.nextTick => @_getAllShapes cb
+    _shapesReady: =>
+      @_nodes = []
+      mainrect = @_$svg[0].getBoundingClientRect()
+      ratio = mainrect.width / @_$svg[0].viewBox.baseVal.width
+      for shape in @_$shapes
         famousrect = shape[0].getBoundingClientRect()
         svgrect = shape[0].getBBox()
-        mod = new famous.modifiers.StateModifier
+        outerMod = new famous.modifiers.StateModifier
+        innerMod = new famous.modifiers.StateModifier
           align: [0,0]
           origin: [0,0]
           size: [
@@ -65,7 +71,7 @@ FView.ready ->
           transform: famous.core.Transform.translate \
             svgrect.x*ratio, \
             svgrect.y*ratio, \
-            @curzOrder++
+            @_curzOrder++
         $innerSvg = $ "<svg \
           width='100%', height='100%' \
           viewBox='\
@@ -78,10 +84,25 @@ FView.ready ->
         $innerSvg.append shape.clone()
         surf = new famous.core.Surface
           content: $innerSvg[0]
-        @modifiers.push mod
-        @surfaces.push surf
-        (@scenenode.add mod).add surf
+        ((@_scenenode.add outerMod).add innerMod).add surf
+        @_nodes.push outerMod
         shape.remove()
+        @_runReadies()
+    getSize: -> @_sceneSurf.getSize()
+    ready: (cb) =>
+      if cb
+        if @_isReady
+          cb()
+        else
+          @_readyQueue.push cb
+      else
+        @_readyDep.depend()
+        @_isReady
+    _runReadies: ->
+      @_isReady = true
+      @_readyDep.changed()
+      (@_readyQueue.shift())() while @_readyQueue.length
+    getStateModifiers: -> @_nodes
 
   # Register the component
   FView.registerView 'FviewSvg', FviewSvg
