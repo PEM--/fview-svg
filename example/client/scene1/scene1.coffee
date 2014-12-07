@@ -1,4 +1,4 @@
-# ftra, frot, fmult and MPI_4... are simple shortcuts:
+# ftra, frot, fmul, fmvt and MPI_4 are simple shortcuts:
 # - frta: function for translate
 # - frot: function for rotation
 # - fmvt: function for move then apply another transformation
@@ -29,8 +29,8 @@ Template.scene1main.rendered = ->
     # The complete scene is always available as the an entry in the
     # dictionary of shapes. Its name is always 'scene'.
     allSmod.scene.setTransform trans, mdtrans for trans in trans_scene
-    # In famo.us delay on animation isn't done out of the box (at least, for
-    # the time being... I'm preparing something for that ;-) Stay tune).
+    # In famo.us, delay on animation isn't available out of the box (at least,
+    # for the time being... I'm preparing something for that ☺ Stay tune).
     # Thus, we are using a basic famo.us's setTimeout as it is synchronized
     # with famo.us's rendering engine.
     Timer.setTimeout ->

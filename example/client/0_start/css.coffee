@@ -2,7 +2,7 @@
 @niceFont = 'Helvetica Neue, Helvetica, Arial, sans-serif'
 css = new CSSC
 css
-.add 'body',
+.add ['body', '.bg'],
   backgroundColor: CSSC.darkgray
 .add '.title',
   paddingTop: CSSC.px 20
