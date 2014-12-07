@@ -18,13 +18,16 @@ FView.ready ->
           '#{@options.template}'."
       html = Blaze.toHTML tpl
       @_$svg = $ html
-      @_createSvg()
       @_isReady = false
       @_readyQueue = []
       @_readyDep = new Tracker.Dependency
+      @_createSvg()
     _createSvg: ->
+      @_nodes = []
       @_curzOrder = @options.zOrderStart
-      smod = new famous.modifiers.StateModifier
+      outerMod = new famous.modifiers.StateModifier
+      @_nodes.push outerMod
+      innerMod = new famous.modifiers.StateModifier
         align: [.5,.5]
         origin: [.5,.5]
         tranform: famous.core.Transform.translate 0,0, @_curzOrder++
@@ -37,7 +40,7 @@ FView.ready ->
         if @_initialSceneSize is undefined
           @_initialSceneSize = famous.utilities.Utility.clone curSize
         console.log 'Resizing', @_initialSceneSize, curSize
-      @_scenenode = @add smod
+      @_scenenode = (@add outerMod).add innerMod
       @_scenenode.add @_sceneSurf
       @_$shapes = []
       # Need at least one cycle for the SVG to get ready and rendered
@@ -54,7 +57,6 @@ FView.ready ->
         return cb()
       famous.core.Engine.nextTick => @_getAllShapes cb
     _shapesReady: =>
-      @_nodes = []
       mainrect = @_$svg[0].getBoundingClientRect()
       ratio = mainrect.width / @_$svg[0].viewBox.baseVal.width
       for shape in @_$shapes
@@ -87,7 +89,7 @@ FView.ready ->
         ((@_scenenode.add outerMod).add innerMod).add surf
         @_nodes.push outerMod
         shape.remove()
-        @_runReadies()
+      @_runReadies()
     getSize: -> @_sceneSurf.getSize()
     ready: (cb) =>
       if cb
@@ -102,7 +104,10 @@ FView.ready ->
       @_isReady = true
       @_readyDep.changed()
       (@_readyQueue.shift())() while @_readyQueue.length
-    getStateModifiers: -> @_nodes
+    getStateModifiers: ->
+      _.extend (scene: @_nodes[0]), \
+        (_.object @options.shapes, \
+          (@_nodes[idx] for idx in [1...@_nodes.length]))
 
   # Register the component
   FView.registerView 'FviewSvg', FviewSvg

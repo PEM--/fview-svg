@@ -14,7 +14,8 @@ Package.onUse(function(api) {
     'coffeescript',
     'blaze',
     'templating',
-    'tracker'
+    'tracker',
+    'underscore'
     ], 'client');
   api.addFiles('fview-svg.coffee', 'client');
   api.export('FviewSvg', 'client');

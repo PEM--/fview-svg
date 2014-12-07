@@ -31,7 +31,7 @@ FView.ready ->
 Template.svgScene1.rendered = ->
   svg = (FView.byId 'scene').view
   svg.ready ->
-    for smod in svg.getStateModifiers()
-      smod.setAlign [.5,.5]
-      smod.setOrigin [.5,.5]
-      smod.setTransform Transform.translate 20, 200, 0, duration: 500
+    allSmod = svg.getStateModifiers()
+    allSmod.scene.setAlign [.5,.5]
+    allSmod.scene.setOrigin [.5,.5]
+    allSmod.scene.setTransform (Transform.rotateZ Math.PI/4), duration: 500
