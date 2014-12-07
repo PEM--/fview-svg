@@ -42,7 +42,7 @@ FView.ready ->
         curSize = @_sceneSurf.getSize()
         if @_initialSceneSize is undefined
           @_initialSceneSize = famous.utilities.Utility.clone curSize
-        console.log 'Resizing', @_initialSceneSize, curSize
+        #console.log 'Resizing', @_initialSceneSize, curSize
       @_scenenode = (@add outerMod).add innerMod
       @_scenenode.add @_sceneSurf
       @_$shapes = []

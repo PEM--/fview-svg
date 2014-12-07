@@ -11,12 +11,4 @@ body
     +StateModifier align='[.5,0]' origin='[.5,0]' size='[undefined,true]'
       +Surface class='title'
         | fview-svg demo
-    +svgScene1
-
-template(name='svgScene1')
-  +StateModifier align='[.5,.5]' origin='[.5,.5]'
-    +FviewSvg id='scene' template='scene' size='[400,300]' shapes='["menu", "buttons", "logo", "text"]'
-
-template(name='svgScene2')
-  +StateModifier align='[.5,.5]' origin='[.5,.5]'
-    +FviewSvg template='scene_simple' size='[400, 300]' shapes='["rect"]' stroke='5'
+    +scene1main
