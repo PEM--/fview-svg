@@ -11,7 +11,7 @@ famous.polyfills
 # Functions shortcuts
 @ftra = Transform.translate
 @frot = Transform.rotate
-@fmult = Transform.multiply
+@fmul = Transform.multiply
 @fmvt = Transform.moveThen
 # Constants shortcuts
 @MPI_4 = Math.PI/4

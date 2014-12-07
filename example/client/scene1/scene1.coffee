@@ -1,4 +1,9 @@
-# ftra, frot, fmult and MPI_4... are simple shortcuts.
+# ftra, frot, fmult and MPI_4... are simple shortcuts:
+# - frta: function for translate
+# - frot: function for rotation
+# - fmvt: function for move then apply another transformation
+# - fmul: function for multiplying transformations
+# - MPI_4: π/4 for 90°
 # See client/0_start/start.coffee for details.
 
 # We start by waiting for the Meteor template to be rendered on the screen.
@@ -17,9 +22,9 @@ Template.scene1main.rendered = ->
     # 1) Ensure that the scene is in front and turn around the Z axis by 90°
     tr1 = fmvt (ftra 0, 0, 1000), (frot 0, 0, MPI_4)
     # 2) Get the step1 transform and turn around the X axis by 135°
-    tr2 = fmult (frot 1.5*MPI_4, 0, 0), tr1
+    tr2 = fmul (frot 1.5*MPI_4, 0, 0), tr1
     # 3) Get the step2 transform and use its new axis to put the scene down.
-    tr3 = fmult tr2, (ftra 0, 0, -100)
+    tr3 = fmul tr2, (ftra 0, 0, -100)
     trans_scene = [tr1, tr2, tr3]
     # The complete scene is always available as the an entry in the
     # dictionary of shapes. Its name is always 'scene'.
