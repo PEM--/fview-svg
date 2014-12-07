@@ -14,9 +14,9 @@ body
     +svgScene1
 
 template(name='svgScene1')
-  +StateModifier align='[.5,.5]' origin='[.5,.5]' proportions='[.4,.3]'
-    +FviewSvg id='scene' template='scene' shapes='["menu", "buttons", "logo", "text"]'
+  +StateModifier align='[.5,.5]' origin='[.5,.5]'
+    +FviewSvg id='scene' template='scene' size='[400,300]' shapes='["menu", "buttons", "logo", "text"]'
 
 template(name='svgScene2')
-  +StateModifier align='[.5,.5]' origin='[.5,.5]' size='[400, 300]'
-    +FviewSvg template='scene_simple' shapes='["rect"]' stroke='5'
+  +StateModifier align='[.5,.5]' origin='[.5,.5]'
+    +FviewSvg template='scene_simple' size='[400, 300]' shapes='["rect"]' stroke='5'

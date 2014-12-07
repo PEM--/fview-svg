@@ -26,6 +26,9 @@ FView.ready ->
       @_nodes = []
       @_curzOrder = @options.zOrderStart
       outerMod = new famous.modifiers.StateModifier
+        size: @options.size
+        align: [.5,.5]
+        origin: [.5,.5]
       @_nodes.push outerMod
       innerMod = new famous.modifiers.StateModifier
         align: [.5,.5]
@@ -63,6 +66,8 @@ FView.ready ->
         famousrect = shape[0].getBoundingClientRect()
         svgrect = shape[0].getBBox()
         outerMod = new famous.modifiers.StateModifier
+          align: [.5,.5]
+          origin: [.5,.5]
         innerMod = new famous.modifiers.StateModifier
           align: [0,0]
           origin: [0,0]
