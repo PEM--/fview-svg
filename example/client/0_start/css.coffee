@@ -1,5 +1,5 @@
 # Create stylesheets
-niceFont = 'Lato, Helvetica Neue, Helvetica, Arial, sans-serif'
+@niceFont = 'Helvetica Neue, Helvetica, Arial, sans-serif'
 css = new CSSC
 css
 .add 'body',
