@@ -2,6 +2,8 @@
 ## Introduction
 Encapsulate SVG in Surface, a plugin for [famous-views], the [Meteor] bridge to [famo.us].
 
+![fview-svg](https://raw.githubusercontent.com/PEM--/fview-svg/master/assets/fview-svg-demo.gif)
+
 :warning: Work in progress :warning:
 
 This plugin uses SVG as [Meteor] templates. By parsing the SVG, it encapsulates the part of the SVG that you want to animate into [famo.us]  `StateModifier` and `Surfaces`. This delivers hardware accelerated performance to SVG on all browsers that supports [famo.us] and remove some .
