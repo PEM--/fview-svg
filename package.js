@@ -7,10 +7,10 @@ Package.describe({
 
 Package.onUse(function(api) {
   api.versionsFrom('1.0');
-  api.use('mjn:famous', 'client', { weak: true });
-  api.use('raix:famono', { weak: true });
+  api.use('mjn:famous@0.3.1_2', 'client', { weak: true });
+  api.use('raix:famono@0.9.23', { weak: true });
   api.use([
-    'gadicohen:famous-views',
+    'gadicohen:famous-views@0.1.29',
     'coffeescript',
     'blaze',
     'templating',
