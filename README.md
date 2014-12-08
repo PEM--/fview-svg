@@ -26,8 +26,7 @@ meteor add raix:famono
 
 > Note that [raix:famono](https://atmospherejs.com/raix/famono) is not only a [famo.us] provider. You can use it to import Bower packages, raw Github repos, CDN libraries and local libraries. Putting D3.js, Sortable, Velocity, jQueryUI... in [Meteor] with it, is a no brainer. A must :star:
 
-You can choose to write your HTML and SVG templates with Blaze or
-with [Maxime Quandalle's Jade](https://github.com/mquandalle/meteor-jade).
+You can choose to write your HTML and SVG templates with Spacebar or with [Jade].
 ```bash
 meteor add mquandalle:jade
 ```
@@ -55,9 +54,24 @@ You should better stay off SVG transformations (translate, rotate, ...). They ar
 ### Create an SVG template
 There are multiple ways of using SVG inside HTML, as objects, imgs, fonts and tags. The tag based SVG directly within your HTML delivers the most efficient integration. This is what is used by **fview-svg** to bridge the SVG world to the ones of [Meteor] and [famo.us].
 
-Once you have edited your SVG, wether it be with Sketch, Adobe Illustrator, [Inkscape] or others, I strongly advise you to remove the unnecessary bloat that these software are adding to your file. For this, I use [SVGO]. See references for details. Always check the optimized SVG file for ensuring that the optimization process has not deteriorated your drawings. This is simply done using your browser of choice and opening the optimized SVG file.
+Once you have edited your SVG, wether it be with Sketch, Adobe Illustrator, [Inkscape] or others, I strongly advise you to remove the unnecessary bloat that these software are adding to your file. For this, I use [SVGO]. See references for details.
+```bash
+svgo mysvg.svg
+```
 
-TODO: It is now time to import your optimized SVG file as a [Meteor] template.
+Always check the optimized SVG file for ensuring that the optimization process has not deteriorated your drawings. This is simply done using your browser of choice and opening the optimized SVG file.
+
+It is now time to import your optimized SVG file as a [Meteor] template. [Meteor] provides multiple template system. As stated before, my prefered one is [Jade]. SVG is a tag based language just like HTML is. The first step is to transform your SVG into a jade file.
+```bash
+html2jade mysvg.svg
+```
+
+This step should produce a `mysvg.jade` file.
+
+> This step could be avoided and you could absolutly use HTML and Blase, the [Meteor]'s default templating system. It's a personnal choice. Mine is to favor a language with stronger semantic and less verbosity. It helps me focus on what needs to be changed when editing SVG manually.
+
+Now we will promote this jade file as a real [Meteor] template file. Basically, we will give it a name as the filename has no other meaning than storage in [Meteor]: it will be part of the single minified JS file that will get transmitted to your clients.
+
 
 TODO: Exporting the attributes
 
@@ -66,7 +80,8 @@ TODO
 
 
 ## Advantages
-* Better minification: Using Blaze, SVG are transformed into HTML.js, a part of Blaze. On the wire, the SVG consumes ~20% less bandwidth.
+* Better minification: Using Spacebar, SVG are transformed into HTML.js,
+parts of Blaze. On the wire or on the air, the SVG consumes ~20% less bandwidth.
 * Your SVG lives in JS space. They can be cloned easily.
 * As they are transported with your single minified JS, [Meteor]'s default behavior, there is no additional round trip time for getting your SVG.
 * Your SVG are instantaneously available when your application starts.
@@ -84,3 +99,4 @@ TODO
 [famo.us]: http://famo.us/ "famo.us"
 [SVGO]: https://github.com/svg/svgo "SVGO"
 [Inkscape]: http://inkscape.org/ "Inkscape"
+[Jade]: https://github.com/mquandalle/meteor-jade "Maxime Quandalle's Jade"
