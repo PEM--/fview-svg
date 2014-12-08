@@ -1,7 +1,7 @@
 Package.describe({
   name: 'pierreeric:fview-svg',
   summary: 'Encapsulate SVG in Surface, a plugin for famous-views, the Meteor bridge to famo.us.',
-  version: '0.1.1',
+  version: '0.1.2',
   git: 'https://github.com/PEM--/fview-svg.git'
 });
 

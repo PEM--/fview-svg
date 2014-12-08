@@ -88,7 +88,7 @@ parts of Blaze. On the wire or on the air, the SVG consumes ~20% less bandwidth.
 * Insertion of your SVG in the DOM is achieved via DOM range when assets are changed, as a default [Meteor] behavior.
 
 ## History
-* 0.1.1 - Allow simple import of SVG without shape extractions.
+* 0.1.1/2 - Allow simple import of SVG without shape extractions.
 * 0.1.0 - Initial release.
 
 ## References
