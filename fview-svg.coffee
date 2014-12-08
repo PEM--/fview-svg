@@ -46,6 +46,9 @@ FView.ready ->
       @_scenenode = (@add outerMod).add innerMod
       @_scenenode.add @_sceneSurf
       @_$shapes = []
+      # if no shapes are extracted from the SVG (a basic Surface with an SVG
+      # within), don't process to the shape identification.
+      @_shapesReady() if @options.shapes.length is 0
       # Need at least one cycle for the SVG to get ready and rendered
       famous.core.Engine.nextTick => @_getAllShapes @_shapesReady
     _getAllShapes: (cb) =>

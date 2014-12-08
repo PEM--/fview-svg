@@ -68,7 +68,7 @@ html2jade mysvg.svg
 
 This step should produce a `mysvg.jade` file.
 
-> This step could be avoided and you could absolutly use HTML and Blase, the [Meteor]'s default templating system. It's a personnal choice. Mine is to favor a language with stronger semantic and less verbosity. It helps me focus on what needs to be changed when editing SVG manually.
+> This step could be avoided and you could absolutely use HTML and Blase, the [Meteor]'s default templating system. It's a personal choice. Mine is to favor a language with stronger semantic and less verbosity. It helps me focus on what needs to be changed when editing SVG manually.
 
 Now we will promote this jade file as a real [Meteor] template file. Basically, we will give it a name as the filename has no other meaning than storage in [Meteor]: it will be part of the single minified JS file that will get transmitted to your clients.
 
@@ -86,6 +86,10 @@ parts of Blaze. On the wire or on the air, the SVG consumes ~20% less bandwidth.
 * As they are transported with your single minified JS, [Meteor]'s default behavior, there is no additional round trip time for getting your SVG.
 * Your SVG are instantaneously available when your application starts.
 * Insertion of your SVG in the DOM is achieved via DOM range when assets are changed, as a default [Meteor] behavior.
+
+## History
+* 0.1.1 - Allow simple import of SVG without shape extractions.
+* 0.1.0 - Initial release.
 
 ## References
 * [Remove all transforms in SVG](http://stackoverflow.com/questions/13329125/removing-transforms-in-svg-files): A reminder on how to remove unnecessary tranforms in SVG with Inkscape.
