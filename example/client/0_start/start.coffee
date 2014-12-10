@@ -22,3 +22,6 @@ FView.ready ->
   console.info "%c\nfamous-views started\n", \
     "font-weight: 300; color: #ec5f3e; font-size: x-large; \
     font-family: #{niceFont}; -webkit-font-smoothing: antialiased;"
+
+# Set main layout of the scenes
+Router.configure layoutTemplate: 'layout'

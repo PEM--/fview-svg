@@ -7,8 +7,11 @@ head
   meta(name='apple-mobile-web-app-capable', content='yes')
   meta(name='mobile-web-app-capable', content='yes')
 body
+
+template(name='layout')
   +famousContext id='mainCtx'
     +StateModifier align='[.5,0]' origin='[.5,0]' size='[undefined,true]'
       +Surface class='title'
         | fview-svg demo
-    +scene1main
+    +RenderController
+      +yield
