@@ -42,3 +42,6 @@ Template.scene1main.rendered = ->
           # a bit further once the former animation has been done.
           allSmod.buttons.setTransform (ftra 0, 0, 150), mdtrans
     , mdtrans.duration * trans_scene.length
+
+# Add this scene to the router
+Router.route '/', 'scene1main'
